@@ -1,0 +1,3 @@
+[submodule "libraries/qlabs"]
+	path = libraries/qlabs
+	url = https://github.com/quanser/Quanser_Interactive_Labs_Resources
