@@ -4,7 +4,9 @@
 
 %% Path setup
 % Add libraries and it's subfolders to matlab path. 
-addpath(genpath('libraries'));
+addpath(genpath('libraries\qlabs\matlab\qvl'));
+addpath(genpath('libraries\urdf'));
+addpath(genpath('libraries\support-resources'));
 
 % Save the path for future MATLAB sessions.
 savepath;
