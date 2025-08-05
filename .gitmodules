@@ -1,3 +1,6 @@
 [submodule "libraries/qlabs"]
 	path = libraries/qlabs
 	url = https://github.com/quanser/Quanser_Interactive_Labs_Resources
+[submodule "libraries/urdf"]
+	path = libraries/urdf
+	url = https://github.com/quanser/urdf_representations.git
