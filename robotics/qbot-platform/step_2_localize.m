@@ -14,19 +14,19 @@ rendFactor = 10;        % render everything N scans
 % Set up stream communication with the Simulink app (robot_driver.slx)
 % using Quanser's Stream API
 uri       = 'tcpip://localhost:18465';
-stream    = stream_connect(uri, false);
+stream    = quanser.communications.stream.connect(uri, false);
 
 try
     % Main loop
     while ~qc_get_key_state(27) % while Esc key not pressed  
         
         % Send pose information back to Simulink app (robot_driver.slx)
-        stream_send_double_array(stream, pose);
-        stream_flush(stream);
+        stream.send_double_array(pose);
+        stream.flush;
         
         % Receive Lidar data from Simulink app (robot_driver.slx)
         % Note: this is a blocking stream and hence, handles timing
-        value = stream_receive_double_array(stream, 420);
+        value = stream.receive_double_array(420);
         if isempty(value) % Simulink app was terminated...
             fprintf(1, '\nServer has closed the connection.\n');
             break;
@@ -46,14 +46,14 @@ try
     fprintf(1, '\n Esc key pressed, application terminating ...\n');
 
     % Close the stream connection.
-    stream_close(stream);
+    stream.close;
     fprintf(1, 'Connection closed\n');
     
 catch err
     % Error handling
     fprintf(1, '\n');
     fprintf(2, '\n%s.\nShutting down the client...\n', err.message);
-    stream_close(stream);
+    stream.close;
     fprintf(1, 'Connection closed\n');
     rethrow(err);
     
