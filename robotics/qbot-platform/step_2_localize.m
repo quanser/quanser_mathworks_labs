@@ -2,10 +2,10 @@
 load("map.mat");
 
 % Set up additional parameters for this script
-step_size  = 0.20;      % time set to 
+step_size  = 0.10;      % time set to 
 t          = 0.0;       %
 id         = 0;         % variable to hold 
-pose       = [0, 0, 0]; % initial pose estimate
+pose       = [0, 0, 0, 0]; % initial pose estimate
 counter    = 0;         % incremement a counter for map rendering
 totalScans = 400;       % number of scans to hold in the map
 totalTime  = 150;       % seconds
@@ -26,7 +26,7 @@ try
         
         % Receive Lidar data from Simulink app (robot_driver.slx)
         % Note: this is a blocking stream and hence, handles timing
-        value = stream.receive_double_array(420);
+        value = stream.receive_double_array(421);
         if isempty(value) % Simulink app was terminated...
             fprintf(1, '\nServer has closed the connection.\n');
             break;
@@ -34,10 +34,13 @@ try
 
         % Create a lidarScan from the data received
         scan = lidarScan(value(1:210,1), value(211:420,1));
-
+        timeRecv = value(421,1);
         % Estimate the pose from previously generated Map
-        pose = findPose(map, scan, [pose(1), pose(2)]);
-        
+        result = findPose(map, scan, [pose(1), pose(2)]);
+        if ~isempty(result)
+            pose(1:3) = result;
+        end
+        pose(4)   = timeRecv;
         t = t + step_size;
     end
 

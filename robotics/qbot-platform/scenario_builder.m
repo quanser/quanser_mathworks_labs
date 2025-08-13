@@ -160,12 +160,12 @@ function [retVal] = scenario_builder(qlabs, caseNum)
         obstacle = QLabsBasicShape(qlabs);
         
         % Cylinders
-        obstacle.spawn_id(68, [ 1.5, -1.5, 0], [0, 0, 0], [0.1, 0.1, 1], obstacle.SHAPE_CYLINDER);
-        obstacle.spawn_id(69, [ 5.1,  1.5, 0], [0, 0, 0], [0.1, 0.1, 1], obstacle.SHAPE_CYLINDER);
-        obstacle.spawn_id(70, [-2.1,  1.5, 0], [0, 0, 0], [0.1, 0.1, 1], obstacle.SHAPE_CYLINDER);
-        obstacle.spawn_id(71, [ 1.5,  5.1, 0], [0, 0, 0], [0.1, 0.1, 1], obstacle.SHAPE_CYLINDER);
-        obstacle.spawn_id(72, [ 5.1,  2.1, 0], [0, 0, 0], [0.1, 0.1, 1], obstacle.SHAPE_CYLINDER);
-        obstacle.spawn_id(73, [-5.1,  5.1, 0], [0, 0, 0], [0.1, 0.1, 1], obstacle.SHAPE_CYLINDER);
+        obstacle.spawn_id(68, [ 1.5,  1.5, 0], [0, 0, 0], [0.2, 0.2, 1], obstacle.SHAPE_CYLINDER);
+        obstacle.spawn_id(69, [ 5.1,  1.5, 0], [0, 0, 0], [0.2, 0.2, 1], obstacle.SHAPE_CYLINDER);
+        obstacle.spawn_id(70, [-2.1,  1.5, 0], [0, 0, 0], [0.2, 0.2, 1], obstacle.SHAPE_CYLINDER);
+        obstacle.spawn_id(71, [ 1.5,  5.1, 0], [0, 0, 0], [0.2, 0.2, 1], obstacle.SHAPE_CYLINDER);
+        obstacle.spawn_id(72, [ 5.1,  2.1, 0], [0, 0, 0], [0.2, 0.2, 1], obstacle.SHAPE_CYLINDER);
+        obstacle.spawn_id(73, [-5.1,  5.1, 0], [0, 0, 0], [0.2, 0.2, 1], obstacle.SHAPE_CYLINDER);
         
         % Obstacles
         obstacle.spawn_id(74, [ 5.1, 3.6, 0], [0, 0,    0], [0.6, 0.1, 1]);
@@ -178,6 +178,8 @@ function [retVal] = scenario_builder(qlabs, caseNum)
         obstacle.spawn_id(81, [-3.6, 0.0, 0], [0, 0,    0], [1.2, 1.2, 1], obstacle.SHAPE_CYLINDER);
         obstacle.spawn_id(82, [ 3.6, 0.0, 0], [0, 0, pi/4], [1.2, 0.1, 1]);
         obstacle.spawn_id(83, [ 3.6, 0.0, 0], [0, 0,-pi/4], [1.2, 0.1, 1]);
+        obstacle.spawn_id(84, [ 1.2,-1.2, 0], [0, 0, pi/4], [1.2*sqrt(2), 0.1, 1]);
+        obstacle.spawn_id(85, [-1.2, 1.2, 0], [0, 0, pi/4], [1.2*sqrt(2), 0.1, 1]);
        
     end
 
@@ -194,4 +196,3 @@ function [retVal] = scenario_builder(qlabs, caseNum)
     retVal = 0;
 
 end
-

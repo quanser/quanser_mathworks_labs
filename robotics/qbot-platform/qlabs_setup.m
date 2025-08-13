@@ -1,5 +1,5 @@
-caseNum = 1; % Twin-room
-% caseNum = 2; % Hex-room
+% caseNum = 1; % Twin-room
+caseNum = 2; % Hex-room
 
 % Stop previously running real-time (RT) applications gracefully
 try

@@ -1,11 +1,14 @@
 % Set up a LidarScanMap object
-map     = lidarscanmap(20, 5); 
+% map     = lidarscanmap(20, 8);
+slamObj = lidarSLAM(20, 10);
+slamObj.LoopClosureThreshold = 100;
+slamObj.LoopClosureSearchRadius = 10;
 hFigMap = figure;
 axMap   = axes(Parent=hFigMap);
 title(axMap,"Map of the Environment and Robot Trajectory")
 
 % Set up additional parameters for this script
-step_size    = 0.10;         % time set to 
+step_size    = 0.40;         % time set to 
 t            = 0.0;          %
 id           = 0;            % variable to hold 
 pose         = [0, 0, 0, 0]; % initial pose estimate
@@ -13,7 +16,7 @@ counter      = 0;            % incremement a counter for map rendering
 totalScans   = 500;          % number of scans to hold in the map
 totalTime    = 750;          % seconds
 updateFactor = 30;           % pose graph optimization every N scans
-rendFactor   = 30;           % render every N scans
+rendFactor   = 10;           % render every N scans
 
 % Set up stream communication with the Simulink app (robot_driver.slx)
 % using Quanser's Stream API
@@ -31,20 +34,20 @@ try
 
         % Receive Lidar data from Simulink app (robot_driver.slx)
         % Note: this is a blocking stream and hence, handles timing
-        value = stream.receive_double_array(421);
+        value = stream.receive_double_array(841);
         if isempty(value) % Simulink app was terminated...
             fprintf(1, '\nServer has closed the connection.\n');
             break;
         end
         
         % Create a lidarScan from the range/angle data received
-        scan = lidarScan(value(1:210,1), value(211:420,1));
+        scan = lidarScan(value(1:420,1), value(421:840,1));
         timeRecv = value(421,1);
         % Build map until condition elapses
         if id < totalScans || t < totalTime
-
+ 
             % Attempt adding scan to map
-            isScanAccepted = addScan(map, scan);
+            [isScanAccepted, loopInfo, optimInfo] = addScan(slamObj, scan);
             if isScanAccepted % attempt successful
                 id = id + 1;  % scan ID increment
 
@@ -59,7 +62,7 @@ try
                 %     [relPose, matchScanId, score] =             ...
                 %                         detectLoopClosure(map,  ...
                 %                             MatchThreshold=300, ...
-                %                             SearchRadius=15,     ...
+                %                             SearchRadius=25,     ...
                 %                             NumMatches=1);
                 % 
                 %     % Check if a loop closure was found
@@ -80,8 +83,9 @@ try
                 %     end
                 % end            
                 % Update the pose from the map
-                pose(1:3) = map.ScanAttributes{end, 'AbsolutePose'};
-                pose(4)   = timeRecv;
+                % slamObj.
+                % pose(1:3) = map.ScanAttributes{end, 'AbsolutePose'};
+                % pose(4)   = timeRecv;
 
             end     
         else
@@ -90,7 +94,7 @@ try
         end
         % Render the map at a slower rate to visualize SLAM
         if mod(counter, rendFactor) == 0
-            map.show;
+            show(slamObj);
             drawnow;
         end
         t       = t + step_size;
